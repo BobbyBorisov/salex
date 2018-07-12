@@ -19,7 +19,7 @@ class NewSale extends Component{
     try{
       const accounts = await web3.eth.getAccounts();
       console.log('going to make transaction from',accounts[0]);
-      await factory.methods.createSale(this.state.minimumContribution).send({from:accounts[0]});
+      await factory.methods.createSale(this.state.title, this.state.description, this.state.price, this.state.photo).send({from:accounts[0]});
 
       //Router.pushRoute('/');
     } catch (err){
