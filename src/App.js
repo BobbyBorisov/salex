@@ -4,6 +4,7 @@ import './App.css';
 import Layout from './components/Layout';
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Home from './components/Home';
+import NewSale from './components/NewSale';
 import {Container} from 'semantic-ui-react';
 import Header from './components/Header';
 
@@ -30,6 +31,7 @@ class App extends Component {
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"></link>
           <Header currentAccount={this.props.provider.currentAccount}/>
           <Route exact path="/" render={(props) => ( <Home {...props}/> )}/>
+          <Route exact path="/new" render={(props) => ( <NewSale {...props} foo="bar"/> )}/>
         </Container>
       </Router>
     );
