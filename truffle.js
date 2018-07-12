@@ -11,6 +11,8 @@
  *     gasPrice: 10000000000,
  *   },
  */
+var HDWalletProvider = require("truffle-hdwallet-provider");
+
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>

@@ -6,10 +6,11 @@ export default (props) => {
   return (
     <Menu style={{marginTop:'10px'}}>
         <Link to="/"><a className="item">SaleX</a></Link>
-        <a className="item">{props.currentAccount}</a>
+
       <Menu.Menu position="right">
-        <Link to="/sales"><a className="item">Sales</a></Link>
-        <Link to="/new"><a className="item">+</a></Link>
+        <Link to="/sales"><a className="item">View Sales</a></Link>
+        <Link to="/new"><a className="item">Add New</a></Link>
+        <a className="item">Account: {props.currentAccount}</a>
       </Menu.Menu>
     </Menu>
   )

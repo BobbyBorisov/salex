@@ -1,7 +1,50 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {Container, Card, Button} from 'semantic-ui-react';
+import factory from '../ethereum/factory';
 
-export default () => {
-  return (
-    <div>ehehhe</div>
-  )
-};
+class Home extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      sales: []
+    }
+    this.loadSales();
+    console.log(this.state.sales);
+  }
+
+  async loadSales(){
+      const sales = await factory.methods.getDeployedSales().call();
+      this.setState({
+          sales: sales
+      })
+  }
+
+  renderSales(){
+    const items = this.state.sales.map(address=>{
+      return {
+        header: address,
+        description: 'description',
+        fluid: true
+      };
+    });
+
+    return <Card.Group items={items}/>;
+  }
+
+  render(){
+
+    return (
+      <div>
+          <h3>Open sales</h3>
+          {this.renderSales()}
+          <Button
+            content="Create Sale"
+            icon="add circle"
+            floated="right"
+            primary
+          />
+      </div>
+    );
+  }
+}
+export default Home;

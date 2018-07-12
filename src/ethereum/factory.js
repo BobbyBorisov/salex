@@ -1,9 +1,9 @@
 import web3 from './web3';
-import SaleFactory from '../build/contracts/SaleFactory.json';
+import SaleFactory from '../contracts/SaleFactory.json';
 
 const instance = new web3.eth.Contract(
   SaleFactory.abi,
-  '0x75510e249f9edb14e1b8b9677ce875d89987c0df'
+  '0xb9b3368984d9b0621f51589763ae1aa60757d01b'
 );
 
 export default instance;
