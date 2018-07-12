@@ -1,14 +1,15 @@
 import React from 'react';
 import {Menu} from 'semantic-ui-react';
+import {Link} from "react-router-dom";
 
-
-export default () => {
+export default (props) => {
   return (
     <Menu style={{marginTop:'10px'}}>
-        <a className="item">Ethx</a>
+        <Link to="/"><a className="item">SaleX</a></Link>
+        <a className="item">{props.currentAccount}</a>
       <Menu.Menu position="right">
-        <a className="item">Sales</a>
-        <a className="item">+</a>
+        <Link to="/sales"><a className="item">Sales</a></Link>
+        <Link to="/new"><a className="item">+</a></Link>
       </Menu.Menu>
     </Menu>
   )

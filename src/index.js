@@ -5,9 +5,10 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import ClientProvider from './ethereum/ClientProvider.js';
 
-console.log('iniital ', ClientProvider.currentAccount);
+console.log('initial ', ClientProvider.currentAccount);
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App provider={ClientProvider} account={ClientProvider.currentAccount}
+                     ethBrowser={ClientProvider.isEthersEnabledBrowser()}/>, document.getElementById('root'));
 
 ClientProvider.onMetamaskAccountChange(() => {
     console.log('change', ClientProvider.currentAccount);

@@ -5,6 +5,7 @@ class ClientProvider{
         this.web3Provider = this.determineProvider();
 
         if (this.isEthersEnabledBrowser()){
+            console.log('ethereum browser enabled');
             this.watchMetamaskInterval = setInterval(this.watchMetamask.bind(this), 200);
         }
     }
@@ -43,12 +44,13 @@ class ClientProvider{
         console.log('watching metamask');
         const accounts = await this.web3Provider.eth.getAccounts();
         if (accounts.length > 0){
+            //console.log('found acc');
             if (this.currentAccount !== accounts[0]){
                 this.currentAccount = accounts[0];
                 window.document.dispatchEvent(new CustomEvent('metamaskAccountChanged', {'detail': {'account': this.currentAccount}}));
             }
         } else {
-
+           //console.log('no acc');
             if (this.currentAccount){
                 this.currentAccount = null;
                 window.document.dispatchEvent(new CustomEvent('metamaskAccountChanged', {'detail': {'account': this.currentAccount}}));
@@ -64,4 +66,4 @@ class ClientProvider{
     }
 }
 
-export default new ClientProvider();
+export default new ClientProvider;
