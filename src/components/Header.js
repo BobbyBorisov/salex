@@ -39,6 +39,10 @@ class Header extends Component {
 
         <Menu.Menu position="right">
           { this.isOwner() ? (
+
+            <Link to="/giveaway"><a className="item">Give away</a></Link>
+          ) : null}
+          { this.isOwner() ? (
             <Link to="/sales/overview"><a className="item">Track Sales</a></Link>
           ) : (<Link to="/new"><a className="item">Add New</a></Link>)}
 

@@ -66,30 +66,6 @@ class SaleShow extends Component{
       <div>
         <h3>Commission: {this.state.commissionPercent}%</h3>
         <h3>Total money in contract: {web3.utils.fromWei(this.state.factoryContractBalance, 'ether')} in ETH</h3>
-        <div>
-          <h3>Give away</h3>
-          <Button
-            content='10%'
-            icon="add circle"
-            loading={this.state.loading}
-            onClick={event => this.onClick(10)}
-            positive
-          />
-          <Button
-            content='25%'
-            icon="add circle"
-            loading={this.state.loading}
-            onClick={event => this.onClick(25)}
-            positive
-          />
-          <Button
-            content='50%'
-            icon="add circle"
-            loading={this.state.loading}
-            onClick={event => this.onClick(50)}
-            positive
-          />
-        </div>
         <h3>Transactions list</h3>
         <Table>
           <Header>

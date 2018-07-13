@@ -3,7 +3,7 @@ import SaleFactory from '../contracts/SaleFactory.json';
 
 const instance = new web3.eth.Contract(
   SaleFactory.abi,
-  '0xe8bdfe09d2a209ba5f71cbda55ef05429a1168db'
+  '0xf9361b2825c1e753e2ded65875722e7bc40e2c48'
 );
 
 export default instance;

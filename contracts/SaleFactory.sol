@@ -64,7 +64,7 @@ contract SaleFactory{
     }
 
     function random() private view returns (uint){
-        return uint(keccak256(block.difficulty, now, giveAwayParticipants));
+        return uint(sha256(now));
     }
 
     function pickWinner(uint percentage) public restricted{
