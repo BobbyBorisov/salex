@@ -9,7 +9,8 @@ class SaleShow extends Component{
     super(props);
     this.state = {
       transactions: [],
-      factoryContractBalance: ''
+      factoryContractBalance: '',
+      commissionPercent:''
     };
     this.loadTransactions();
     console.log(this.state.transactions);
@@ -19,6 +20,7 @@ class SaleShow extends Component{
 
     const transactionsCount = await factory.methods.getTransactionsCount().call();
     const factoryContractBalance = await factory.methods.getBalance().call();
+    const commissionPercent = await factory.methods.commissionPercent().call();
 
     const transactions = await Promise.all(
       Array(parseInt(transactionsCount)).fill().map((element, index) => {
@@ -26,8 +28,26 @@ class SaleShow extends Component{
       })
     );
 
-    this.setState({transactions, factoryContractBalance});
+    this.setState({transactions, factoryContractBalance, commissionPercent});
   }
+
+  onClick = async (event, priceInWei,address,index) => {
+    event.preventDefault();
+    this.setState({loading:true,errorMessage:''});
+
+    try{
+      const accounts = await web3.eth.getAccounts();
+      await factory.methods.giveAway().send({
+        from:accounts[0]
+      });
+
+      // Router.pushRoute('/');
+    } catch (err){
+      this.setState({errorMessage: err.message});
+    }
+
+    this.setState({loading:false});
+  };
 
   renderRow(){
       return this.state.transactions.map((transaction, index) => {
@@ -44,8 +64,32 @@ class SaleShow extends Component{
 
     return (
       <div>
-        <h3>Total commission: {web3.utils.fromWei(this.state.factoryContractBalance, 'ether')} in ETH</h3>
-
+        <h3>Commission: {this.state.commissionPercent}%</h3>
+        <h3>Total money in contract: {web3.utils.fromWei(this.state.factoryContractBalance, 'ether')} in ETH</h3>
+        <div>
+          <h3>Give away</h3>
+          <Button
+            content='10%'
+            icon="add circle"
+            loading={this.state.loading}
+            onClick={event => this.onClick(10)}
+            positive
+          />
+          <Button
+            content='25%'
+            icon="add circle"
+            loading={this.state.loading}
+            onClick={event => this.onClick(25)}
+            positive
+          />
+          <Button
+            content='50%'
+            icon="add circle"
+            loading={this.state.loading}
+            onClick={event => this.onClick(50)}
+            positive
+          />
+        </div>
         <h3>Transactions list</h3>
         <Table>
           <Header>
