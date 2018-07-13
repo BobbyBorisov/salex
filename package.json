@@ -10,13 +10,16 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "semantic-ui-react": "^0.82.0",
+    "solidity-coverage": "^0.5.5",
     "truffle-hdwallet-provider": "^0.0.5",
     "web3": "1.0.0-beta.26"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "truffle test",
+    "test:run:server": "testrpc-sc --port 8555 -l 0xfffffffffff -g 0x01",
+    "test:coverage": "solidity-coverage",
     "eject": "react-scripts eject"
   }
 }
