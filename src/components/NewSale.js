@@ -3,6 +3,7 @@ import {Container, Card, Button, Form, Message, Input} from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import web3 from '../ethereum/web3';
 import ipfs from '../ethereum/ipfs';
+import utils from '../ethereum/utils';
 
 class NewSale extends Component{
   state = {
@@ -35,22 +36,22 @@ class NewSale extends Component{
     await ipfs.add(this.state.buffer, (err, ipfsHash) => {
       console.log(err,ipfsHash);
       this.setState({ photo:ipfsHash[0].hash });
-    }) //await ipfs.add
+    })
   };
 
   onSubmit = async (event) => {
     event.preventDefault();
-
     this.setState({loading:true,errorMessage:''});
 
     try{
       const accounts = await web3.eth.getAccounts();
-
-      console.log('going to create new sale from',accounts[0]);
+      const price = utils.toWei(this.state.price);
+      console.log('going to create new sale from '+accounts[0]+' with price '+this.state.price+'Wei, '+utils.toWei(this.state.price)+' ETH');
 
       const hash = await ipfs.add(this.state.buffer);
       this.setState({photo:hash[0].hash});
-      await factory.methods.createSale(this.state.title, this.state.description, this.state.price, this.state.photo).send({from:accounts[0]});
+
+      await factory.methods.createSale(this.state.title, this.state.description, utils.toWei(this.state.price), this.state.photo).send({from:accounts[0]});
 
       //Router.pushRoute('/');
     } catch (err){
@@ -82,7 +83,7 @@ class NewSale extends Component{
           <Form.Field>
             <label>Price</label>
             <Input
-              label="Wei"
+              label="ETH"
               labelPosition="right"
               value={this.state.price}
               onChange={event => this.setState({price: event.target.value})}

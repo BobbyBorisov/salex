@@ -4,6 +4,7 @@ import factory from '../ethereum/factory';
 import { Link } from 'react-router-dom';
 import Sale from '../ethereum/sale';
 import web3 from '../ethereum/web3';
+import utils from '../ethereum/utils';
 
 class Home extends Component{
   constructor(props){
@@ -76,21 +77,29 @@ class Home extends Component{
       return <Card key={index}>
               <Image style={{'height':200}} src={`https://gateway.ipfs.io/ipfs/${element[2]}`} />
               <Card.Content>
-                <Card.Header>{element[0]} ({element[4] ? 'Sold' : ''})</Card.Header>
+                <Card.Header>{element[0]}</Card.Header>
                 <Card.Meta>
                   <span className='date'>Joined in 2015</span>
                 </Card.Meta>
                 <Card.Description>{element[1]}</Card.Description>
               </Card.Content>
               <Card.Content extra>
-                <Button
-                  content={`Buy for ${element[3]} WEI`}
-                  // content={`Buy for ${web3.utils.fromWei(element[3], 'ether')} ETH`}
-                  icon="add circle"
-                  loading={this.state.loading}
-                  onClick={event => this.onClick(event,element[3], element[5],index)}
-                  disabled={element[4]}
-                />
+                { element[4] ?
+                  <Button
+                    content="Sold"
+                    disabled
+                    fluid
+                  />:
+                  <Button
+                    content={`Buy for ${utils.toEtherWithPrecision(element[3],3)} ETH`}
+                    icon="add circle"
+                    loading={this.state.loading}
+                    onClick={event => this.onClick(event,element[3], element[5],index)}
+                    disabled={element[4]}
+                    fluid
+                    positive
+                  />
+                }
 
               </Card.Content>
             </Card>
@@ -104,7 +113,7 @@ class Home extends Component{
     return (
       <div>
           <h3>Open sales</h3>
-          <Card.Group>
+          <Card.Group itemsPerRow="5">
             {this.renderSales()}
           </Card.Group>
       </div>

@@ -3,6 +3,7 @@ import {Menu} from 'semantic-ui-react';
 import {Link} from "react-router-dom";
 import web3 from '../ethereum/web3';
 import factory from '../ethereum/factory';
+import utils from '../ethereum/utils';
 
 class Header extends Component {
   state = {
@@ -33,7 +34,7 @@ class Header extends Component {
             <Link to="/sales/overview"><a className="item">Track Sales</a></Link>
           ) : (<Link to="/new"><a className="item">Add New</a></Link>)}
 
-          <a className="item">Account: {this.props.currentAccount} - Balance {parseFloat(web3.utils.fromWei(this.state.balance,'ether')).toFixed(4)} ETH</a>
+          <a className="item">Account: {this.props.currentAccount} - Balance {utils.toEtherWithPrecision(this.state.balance,4)} ETH</a>
         </Menu.Menu>
       </Menu>
     )
