@@ -65,13 +65,14 @@ contract Sale {
         complete=true;
     }
 
-    function getSummary() public view returns (string, string, string, uint, bool) {
+    function getSummary() public view returns (string, string, string, uint, bool, address) {
         return (
             title,
             description,
             photoHash,
             price,
-            complete
+            complete,
+            this
         );
     }
 
