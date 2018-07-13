@@ -17,9 +17,7 @@ class App extends Component {
     this.state = {
       contractOwner:''
     }
-    console.log("component constructor created");
     this.loadOwner();
-    // console.log("current account is :",this.props.provider.currentAccount);
   }
 
   async loadOwner(){

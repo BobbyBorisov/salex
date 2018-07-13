@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Sale from '../ethereum/sale';
 import web3 from '../ethereum/web3';
 import utils from '../ethereum/utils';
+import EventSystem from '../EventSystem';
 
 class Home extends Component{
   constructor(props){
@@ -15,18 +16,10 @@ class Home extends Component{
       errorMessage:''
     }
     this.loadSales();
-    console.log(this.state.sales);
-
-    // const sales = await Promise.all(
-    //   Array(parseInt(salesCount)).fill().map((element, index) => {
-    //     return sale.methods.requests(index).call();
-    //   })
-    // );
   }
 
   async loadSales(){
       const salesAddresses = await factory.methods.getDeployedSales().call();
-      console.log(salesAddresses);
 
       const salesSummary = await Promise.all(
         salesAddresses.map((address, index) => {
@@ -55,6 +48,7 @@ class Home extends Component{
       // Router.pushRoute('/');
       this.state.sales[index][4] = true;
       this.forceUpdate();
+      EventSystem.publish('balance.decrement',priceInWei);
     } catch (err){
       this.setState({errorMessage: err.message});
     }
@@ -63,17 +57,7 @@ class Home extends Component{
   };
 
   renderSales(){
-    console.log(this.state.sales);
     const items = this.state.sales.map((element, index)=>{
-      console.log("element ",element);
-      console.log("index ",index);
-
-      // return {
-      //   image: <Image style={{'height':200}} src={`https://gateway.ipfs.io/ipfs/${element[2]}`}/>,
-      //   header: element[0],
-      //   description: element[1],
-      // };
-
       return <Card key={index}>
               <Image style={{'height':200}} src={`https://gateway.ipfs.io/ipfs/${element[2]}`} />
               <Card.Content>

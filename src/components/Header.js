@@ -4,15 +4,23 @@ import {Link} from "react-router-dom";
 import web3 from '../ethereum/web3';
 import factory from '../ethereum/factory';
 import utils from '../ethereum/utils';
+import EventSystem from '../EventSystem';
 
 class Header extends Component {
   state = {
     balance:''
   }
 
+  componentDidMount(){
+    EventSystem.subscribe('balance.decrement', async (priceInWei)=>{
+      const newBalance = web3.utils.toBN(this.state.balance).sub(web3.utils.toBN(priceInWei));
+      this.setState({balance:newBalance});
+    });
+  }
+
   async componentDidUpdate(prevProps){
     if (prevProps.currentAccount !== this.props.currentAccount){
-      console.log('new account '+this.props.currentAccount+'. getting balance');
+      console.log('new account '+this.props.currentAccount+'. fetching balance...');
       const balance = await web3.eth.getBalance(this.props.currentAccount);
       this.setState({balance});
     }

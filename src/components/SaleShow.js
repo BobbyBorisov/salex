@@ -20,7 +20,6 @@ class SaleShow extends Component{
     const transactionsCount = await factory.methods.getTransactionsCount().call();
     const factoryContractBalance = await factory.methods.getBalance().call();
 
-    console.log(transactionsCount);
     const transactions = await Promise.all(
       Array(parseInt(transactionsCount)).fill().map((element, index) => {
         return factory.methods.transactions(index).call();
