@@ -32,7 +32,7 @@ class App extends Component {
         <Container>
           <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"></link>
           <Header currentAccount={this.props.provider.currentAccount} contractOwner={this.state.contractOwner}/>
-          <Route exact path="/" render={(props) => ( <Home {...props}/> )}/>
+          <Route exact path="/" render={(props) => ( <Home {...props} provider={this.props.provider}/> )}/>
           <Route exact path="/new" render={(props) => ( <NewSale {...props} /> )}/>
           <Route path="/sales/overview" render={(props) => ( <SaleShow {...props} /> )}/>
           <Route path="/giveaway" render={(props) => ( <Giveaway {...props} /> )}/>

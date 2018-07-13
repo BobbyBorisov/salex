@@ -10,6 +10,7 @@ import EventSystem from '../EventSystem';
 class Home extends Component{
   constructor(props){
     super(props);
+    console.log('is ether enabled ',props.provider.isEthersEnabledBrowser());
     this.state = {
       sales: [],
       loading:false,
@@ -79,7 +80,7 @@ class Home extends Component{
                     icon="add circle"
                     loading={this.state.loading}
                     onClick={event => this.onClick(event,element[3], element[5],index)}
-                    disabled={element[4]}
+                    disabled={element[4] || !this.props.provider.isEthersEnabledBrowser()}
                     fluid
                     positive
                   />
@@ -96,7 +97,7 @@ class Home extends Component{
 
     return (
       <div>
-          <h3>Open sales</h3>
+          <h3>All Sales</h3>
           <Card.Group itemsPerRow="5">
             {this.renderSales()}
           </Card.Group>
