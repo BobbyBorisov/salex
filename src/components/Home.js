@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Container, Card, Button} from 'semantic-ui-react';
 import factory from '../ethereum/factory';
+import { Link } from 'react-router-dom';
+
 
 class Home extends Component{
   constructor(props){
@@ -23,7 +25,7 @@ class Home extends Component{
     const items = this.state.sales.map(address=>{
       return {
         header: address,
-        description: 'description',
+        description: <Link to={`/sale/${address}`}>View</Link>,
         fluid: true
       };
     });

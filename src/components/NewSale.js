@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Container, Card, Button, Form, Message, Input} from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import web3 from '../ethereum/web3';
+import ipfs from '../ethereum/ipfs';
 
 class NewSale extends Component{
   state = {
@@ -9,16 +10,46 @@ class NewSale extends Component{
     description:'',
     photo:'',
     price:'',
+    buffer:'',
     errorMessage: '',
     loading: false
   }
 
+  captureFile =(event) => {
+        event.stopPropagation()
+        event.preventDefault()
+        const file = event.target.files[0]
+        let reader = new window.FileReader()
+        reader.readAsArrayBuffer(file)
+        reader.onloadend = () => this.convertToBuffer(reader)
+  };
+
+  convertToBuffer = async(reader) => {
+      //file is converted to a buffer for upload to IPFS
+        const buffer = await Buffer.from(reader.result);
+      //set this buffer -using es6 syntax
+        this.setState({buffer});
+  };
+
+  uploadPhoto = async () => {
+    await ipfs.add(this.state.buffer, (err, ipfsHash) => {
+      console.log(err,ipfsHash);
+      this.setState({ photo:ipfsHash[0].hash });
+    }) //await ipfs.add
+  };
+
   onSubmit = async (event) => {
     event.preventDefault();
+
     this.setState({loading:true,errorMessage:''});
+
     try{
       const accounts = await web3.eth.getAccounts();
-      console.log('going to make transaction from',accounts[0]);
+
+      console.log('going to create new sale from',accounts[0]);
+
+      const hash = await ipfs.add(this.state.buffer);
+      this.setState({photo:hash[0].hash});
       await factory.methods.createSale(this.state.title, this.state.description, this.state.price, this.state.photo).send({from:accounts[0]});
 
       //Router.pushRoute('/');
@@ -58,10 +89,10 @@ class NewSale extends Component{
             />
           </Form.Field>
           <Form.Field>
-            <label>photo hash</label>
+            <label>photo</label>
             <Input
-              value={this.state.photo}
-              onChange={event => this.setState({photo: event.target.value})}
+              type="file"
+              onChange={this.captureFile}
             />
           </Form.Field>
           <Message error header="Oops!" content={this.state.errorMessage} />
