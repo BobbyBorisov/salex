@@ -33,7 +33,7 @@ class App extends Component {
           <Header currentAccount={this.props.provider.currentAccount}/>
           <Route exact path="/" render={(props) => ( <Home {...props}/> )}/>
           <Route exact path="/new" render={(props) => ( <NewSale {...props} /> )}/>
-          <Route path="/sale/:saleAddress" render={(props) => ( <SaleShow {...props} /> )}/>
+          <Route path="/sales/overview" render={(props) => ( <SaleShow {...props} /> )}/>
         </Container>
       </Router>
     );

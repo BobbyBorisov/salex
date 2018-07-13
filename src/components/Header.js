@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Menu} from 'semantic-ui-react';
 import {Link} from "react-router-dom";
 import web3 from '../ethereum/web3';
+import factory from '../ethereum/factory';
 
 class Header extends Component {
   state = {
@@ -27,7 +28,7 @@ class Header extends Component {
 
         <Menu.Menu position="right">
           { this.isOwner() ? (
-            <Link to="/sales"><a className="item">Track Sales</a></Link>
+            <Link to="/sales/overview"><a className="item">Track Sales</a></Link>
           ) : null}
           <Link to="/new"><a className="item">Add New</a></Link>
           <a className="item">Account: {this.props.currentAccount} - Balance {parseFloat(web3.utils.fromWei(this.state.balance,'ether')).toFixed(4)} ETH</a>

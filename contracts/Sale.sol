@@ -1,11 +1,21 @@
 pragma solidity ^0.4.0;
 
 contract SaleFactory{
+    struct Transaction {
+        address sellerAddress;
+        address sellerContractAddress;
+        address buyerAddress;
+        uint value;
+    }
+
+    Transaction[] public transactions;
     address[] public deployedSales;
     uint public commissionPercent;
+    address public manager;
 
     constructor() public {
         commissionPercent = 10;
+        manager = msg.sender;
     }
 
     function createSale(string title, string description,uint price,  string photoHash) public {
@@ -25,12 +35,26 @@ contract SaleFactory{
         return this.balance;
     }
 
+    function recordTransaction(address _sellerAddress, address _buyerAddress, address _sellerContractAddress, uint value){
+        Transaction memory newTransaction = Transaction({
+           sellerAddress: _sellerAddress,
+           sellerContractAddress: _sellerContractAddress,
+           buyerAddress: _buyerAddress,
+           value: value
+        });
+
+        transactions.push(newTransaction);
+    }
+
+    function getTransactionsCount() public view returns(uint){
+        return transactions.length;
+    }
+
     function() payable {
     }
 }
 
 contract Sale {
-
     uint public price;
     string public title;
     string public description;
@@ -63,9 +87,11 @@ contract Sale {
         ownerContract.send(commisionValue);
         creator.transfer(price-commisionValue);
         complete=true;
+        SaleFactory factory = SaleFactory(ownerContract);
+        factory.recordTransaction(creator, msg.sender, this, price);
     }
 
-    function getSummary() public view returns (string, string, string, uint, bool, address) {
+    function getSummary() public view returns (string, string, string, uint, bool,address) {
         return (
             title,
             description,
