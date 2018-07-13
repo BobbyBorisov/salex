@@ -46,6 +46,7 @@ class SaleShow extends Component{
     return (
       <div>
         <h3>Total commission: {web3.utils.fromWei(this.state.factoryContractBalance, 'ether')} in ETH</h3>
+
         <h3>Transactions list</h3>
         <Table>
           <Header>

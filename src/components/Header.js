@@ -10,7 +10,6 @@ class Header extends Component {
   }
 
   async componentDidUpdate(prevProps){
-    console.log('component did update');
     if (prevProps.currentAccount !== this.props.currentAccount){
       console.log('new account '+this.props.currentAccount+'. getting balance');
       const balance = await web3.eth.getBalance(this.props.currentAccount);
@@ -18,9 +17,12 @@ class Header extends Component {
     }
   }
 
-  async isOwner(){
-    return true;
+  isOwner(){
+    console.log('currentAccount is ',this.props.currentAccount);
+    console.log('contractOwner is ', this.props.contractOwner)
+    return this.props.currentAccount === this.props.contractOwner;
   }
+
   render(){
     return (
       <Menu style={{marginTop:'10px'}}>
