@@ -37,6 +37,30 @@ contract('SaleFactory', function(accounts) {
     assert.equal(factory.address, ownerContractAddress);
   });
 
+  it("knows how many sales are deployed", async() => {
+    factory = await factoryContract.new();
+
+    itemPriceInWei = web3.toWei('0.001', 'ether');
+    await factory.createSale("first item", "description", itemPriceInWei, "photohash", {from:accounts[1]});
+
+    const deployedSalesCount = await factory.getDeployedSalesCount.call();
+    assert.equal(1, deployedSalesCount.toNumber());
+  });
+
+  it("knows how many transactions has", async() => {
+    factory = await factoryContract.new();
+
+    itemPriceInWei = web3.toWei('0.001', 'ether');
+    await factory.createSale("first item", "description", itemPriceInWei, "photohash", {from:accounts[1]});
+    const saleAddresses = await factory.getDeployedSales.call();
+    sale = saleContract.at(saleAddresses[saleAddresses.length - 1]);
+    
+    await sale.buy({from:accounts[2], value:web3.toWei('0.1', 'ether')});
+
+    const transactionsCount = await factory.getTransactionsCount.call();
+    assert.equal(1, transactionsCount.toNumber());
+  });
+
   it("can finalize sale", async() => {
     let creatorAddress = await sale.creator.call();
     let ownerContractAddress = await sale.ownerContract.call();

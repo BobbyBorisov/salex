@@ -13,11 +13,6 @@ contract Sale {
     address public ownerContract;
     address public creator;
 
-    modifier restricted(){
-        require(msg.sender == creator);
-        _;
-    }
-
     constructor(string _title,string  _description,uint _price, string  _photoHash, uint _commissionPercent, address _creator) public {
         title = _title;
         description = _description;
@@ -48,9 +43,5 @@ contract Sale {
             complete,
             this
         );
-    }
-
-    function sendHash(string _photoHash) public restricted {
-        photoHash = _photoHash;
     }
 }
