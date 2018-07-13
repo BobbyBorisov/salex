@@ -14,10 +14,17 @@ contract SaleFactory{
     address[] public deployedSales;
     uint public commissionPercent;
     address public manager;
+    address[] public giveAwayParticipants;
+    address public lastWinner;
 
     constructor() public {
         commissionPercent = 10;
         manager = msg.sender;
+    }
+
+    modifier restricted(){
+        require(msg.sender == manager);
+        _;
     }
 
     function createSale(string title, string description,uint price,  string photoHash) public {
@@ -46,10 +53,30 @@ contract SaleFactory{
         });
 
         transactions.push(newTransaction);
+
+        if(value >= .01 ether){
+            giveAwayParticipants.push(_buyerAddress);
+        }
     }
 
     function getTransactionsCount() public view returns(uint){
         return transactions.length;
+    }
+
+    function random() private view returns (uint){
+        return uint(keccak256(block.difficulty, now, giveAwayParticipants));
+    }
+
+    function pickWinner(uint percentage) public restricted{
+        uint index = random() % giveAwayParticipants.length;
+        uint amount = (percentage*this.balance)/100;
+        giveAwayParticipants[index].transfer(amount);
+        lastWinner = giveAwayParticipants[index];
+        giveAwayParticipants = new address[](0);
+    }
+
+    function getGiveAwayParticipants() public view returns(address[]){
+        return giveAwayParticipants;
     }
 
     function() payable {

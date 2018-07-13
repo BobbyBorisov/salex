@@ -54,11 +54,61 @@ contract('SaleFactory', function(accounts) {
     await factory.createSale("first item", "description", itemPriceInWei, "photohash", {from:accounts[1]});
     const saleAddresses = await factory.getDeployedSales.call();
     sale = saleContract.at(saleAddresses[saleAddresses.length - 1]);
-    
+
     await sale.buy({from:accounts[2], value:web3.toWei('0.1', 'ether')});
 
     const transactionsCount = await factory.getTransactionsCount.call();
     assert.equal(1, transactionsCount.toNumber());
+  });
+
+  it("adds buyer to giveawayParticipants when purchase item above or equal to 0.1 ETH", async() => {
+    factory = await factoryContract.new();
+
+    itemPriceInWei = web3.toWei('0.01', 'ether');
+    await factory.createSale("first item", "description", itemPriceInWei, "photohash", {from:accounts[1]});
+    const saleAddresses = await factory.getDeployedSales.call();
+    sale = saleContract.at(saleAddresses[saleAddresses.length - 1]);
+
+    await sale.buy({from:accounts[2], value:web3.toWei('0.01', 'ether')});
+
+    const giveAwayParticipants = await factory.getGiveAwayParticipants.call();
+    assert.equal(accounts[2], giveAwayParticipants[0]);
+  });
+
+  it("manager can pick a winner for the give away", async() => {
+    factory = await factoryContract.new();
+
+    itemPriceInWei = web3.toWei('2', 'ether');
+    await factory.createSale("first item", "description", itemPriceInWei, "photohash", {from:accounts[1]});
+    const saleAddresses = await factory.getDeployedSales.call();
+    sale = saleContract.at(saleAddresses[saleAddresses.length - 1]);
+
+    //owner smart contract gets 10% => 0.2 ETH
+    await sale.buy({from:accounts[3], value:web3.toWei('2', 'ether')});
+
+    const initialBalance = getBalanceInEth(accounts[3]);
+    printBalance("initial balance ",accounts[3]);
+
+    await factory.pickWinner(100,{from:accounts[0]});
+
+    const finalBalance = getBalanceInEth(accounts[3]);
+    printBalance("final balance ",accounts[3]);
+
+    const difference = finalBalance - initialBalance;
+    const lastWinner = await factory.lastWinner.call();
+
+    assert(difference > 0.17);
+    assert(difference < 0.21);
+    assert.equal(accounts[3], lastWinner);
+  });
+
+  it("only manager can pick winner", async() => {
+    try{
+      await factory.pickWinner(100,{from:accounts[1]});
+      assert(false);
+    } catch (err){
+      assert(err);
+    }
   });
 
   it("can finalize sale", async() => {
