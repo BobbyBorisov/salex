@@ -16,13 +16,19 @@ class Header extends Component {
       this.setState({balance});
     }
   }
+
+  async isOwner(){
+    return true;
+  }
   render(){
     return (
       <Menu style={{marginTop:'10px'}}>
           <Link to="/"><a className="item">SaleX</a></Link>
 
         <Menu.Menu position="right">
-          <Link to="/sales"><a className="item">View Sales</a></Link>
+          { this.isOwner() ? (
+            <Link to="/sales"><a className="item">Track Sales</a></Link>
+          ) : null}
           <Link to="/new"><a className="item">Add New</a></Link>
           <a className="item">Account: {this.props.currentAccount} - Balance {parseFloat(web3.utils.fromWei(this.state.balance,'ether')).toFixed(4)} ETH</a>
         </Menu.Menu>
