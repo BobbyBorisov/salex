@@ -11,5 +11,8 @@ export default module.export = {
 
   toEtherWithPrecision(value, precision){
     return parseFloat(this.toEther(value)).toFixed(precision);
+  },
+  cropAfter(text,index){
+    return text.substring(0, index);
   }
 };
