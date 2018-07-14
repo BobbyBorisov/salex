@@ -51,8 +51,7 @@ class NewSale extends Component{
       this.setState({photo:hash[0].hash});
 
       await factory.methods.createSale(this.state.title, this.state.description, utils.toWei(this.state.price), this.state.photo).send({from:accounts[0]});
-
-      //Router.pushRoute('/');
+      this.props.history.push('/');
     } catch (err){
       this.setState({errorMessage: err.message});
     }

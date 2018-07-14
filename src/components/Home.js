@@ -85,7 +85,6 @@ class Home extends Component{
                     positive
                   />
                 }
-
               </Card.Content>
             </Card>
     });
