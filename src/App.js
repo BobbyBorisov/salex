@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Layout from './components/Layout';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import Home from './components/Home';
 import NewSale from './components/NewSale';
 import SaleShow from './components/SaleShow';

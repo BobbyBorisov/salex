@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Container, Card, Button, Image, Icon, Message} from 'semantic-ui-react';
+import {Card, Button, Image} from 'semantic-ui-react';
 import factory from '../ethereum/factory';
-import { Link } from 'react-router-dom';
 import Sale from '../ethereum/sale';
 import web3 from '../ethereum/web3';
 import utils from '../ethereum/utils';

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Card, Button, Grid, Image, Message, Table} from 'semantic-ui-react';
+import {Button, Message, Table} from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import web3 from '../ethereum/web3';
 import ParticipantRow from './ParticipantRow';

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Menu} from 'semantic-ui-react';
 import {Link} from "react-router-dom";
 import web3 from '../ethereum/web3';
-import factory from '../ethereum/factory';
 import utils from '../ethereum/utils';
 import EventSystem from '../EventSystem';
 

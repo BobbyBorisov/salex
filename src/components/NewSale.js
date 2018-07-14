@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Container, Card, Button, Form, Message, Input} from 'semantic-ui-react';
+import {Button, Form, Message, Input} from 'semantic-ui-react';
 import factory from '../ethereum/factory';
 import web3 from '../ethereum/web3';
 import ipfs from '../ethereum/ipfs';
@@ -45,8 +45,7 @@ class NewSale extends Component{
 
     try{
       const accounts = await web3.eth.getAccounts();
-      const price = utils.toWei(this.state.price);
-      console.log('going to create new sale from '+accounts[0]+' with price '+this.state.price+'Wei, '+utils.toWei(this.state.price)+' ETH');
+      //console.log('going to create new sale from '+accounts[0]+' with price '+this.state.price+'Wei, '+utils.toWei(this.state.price)+' ETH');
 
       const hash = await ipfs.add(this.state.buffer);
       this.setState({photo:hash[0].hash});
