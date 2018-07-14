@@ -8,9 +8,12 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
   console.log('we are in the browser');
 } else {
   //We are on the server *OR* the user is not running metamask.
-  const provider = new Web3.providers.HttpProvider('https://rinkeby.infura.io/1gI9DT8OOfMzWzoF21xH');
+  // const provider = new Web3.providers.HttpProvider('https://rinkeby.infura.io/1gI9DT8OOfMzWzoF21xH');
+  // web3 = new Web3(provider);
+  // console.log('we are on the server or user is not running metamask');
+  const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
+  console.log('using ganache as providers');
   web3 = new Web3(provider);
-  console.log('we are on the server or user is not running metamask');
 }
 
 export default web3;

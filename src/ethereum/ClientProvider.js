@@ -18,8 +18,11 @@ class ClientProvider{
         return new Web3(window.web3.currentProvider);
       } else {
         //We are on the server *OR* the user is not running metamask.
-        const provider = new Web3.providers.HttpProvider('https://rinkeby.infura.io/1gI9DT8OOfMzWzoF21xH');
-        console.log('using rinkeby web3 provider');
+        // const provider = new Web3.providers.HttpProvider('https://rinkeby.infura.io/1gI9DT8OOfMzWzoF21xH');
+        // console.log('using rinkeby web3 provider');
+
+        const provider = new Web3.providers.HttpProvider('http://127.0.0.1:8545');
+        console.log('using ganache as providers');
         return new Web3(provider);
       }
     }

@@ -62,7 +62,7 @@ class Header extends Component {
         </Menu.Menu>
       </Menu>
       <Message success hidden={this.props.isEthersEnabledBrowser} header="Info" content="Please use Chrome browser and Metamask extension if you want to purchase items" />
-      <Message success hidden={!this.props.accountIsLocked && this.props.isEthersEnabledBrowser} header="Info" content="Please unlock your account" />
+      <Message success hidden={!(this.props.isEthersEnabledBrowser && this.props.accountIsLocked)} header="Info" content="Please unlock your account" />
       </div>
     )
   }
