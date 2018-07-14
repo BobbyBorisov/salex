@@ -34,14 +34,15 @@ contract Sale {
         factory.recordTransaction(creator, msg.sender, this, price);
     }
 
-    function getSummary() public view returns (string, string, string, uint, bool,address) {
+    function getSummary() public view returns (string, string, string, uint, bool,address, address) {
         return (
             title,
             description,
             photoHash,
             price,
             complete,
-            this
+            this,
+            creator
         );
     }
 }

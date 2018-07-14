@@ -57,6 +57,27 @@ class Home extends Component{
     this.setState({loading:false});
   };
 
+  renderButton(isSaleCompleted, sellerAddress, priceInWei, contractAddress, index){
+    if(sellerAddress === this.props.provider.currentAccount){
+      return null;
+    }else if(isSaleCompleted){
+      return <Card.Content extra><Button
+              content="Sold"
+              disabled
+              fluid
+            /></Card.Content>
+    }else{
+      return <Card.Content extra><Button
+        content={`Buy for ${utils.toEtherWithPrecision(priceInWei,3)} ETH`}
+        loading={this.state.loading}
+        onClick={event => this.onClick(event,priceInWei, contractAddress,index)}
+        disabled={!this.props.provider.isEthersEnabledBrowser() || this.props.provider.accountIsLocked()}
+        fluid
+        positive
+      /></Card.Content>
+    }
+  }
+
   renderSales(){
     const items = this.state.sales.map((element, index)=>{
       return <Card key={index}>
@@ -64,28 +85,22 @@ class Home extends Component{
               <Card.Content>
                 <Card.Header>{element[0]}</Card.Header>
                 <Card.Meta>
-                  <span className='date'>Joined in 2015</span>
+                { this.props.provider.isEthersEnabledBrowser() && !this.props.provider.accountIsLocked() ?
+                  (<div>
+                    <div>
+                      <span className='date'>Seller: {utils.cropAfter(element[6],15)} ...</span>
+                    </div>
+                    <div>
+                      <span className='date'>Contract: {utils.cropAfter(element[5],13)} ...</span>
+                    </div>
+                  </div>) : null
+                }
                 </Card.Meta>
                 <Card.Description>{element[1]}</Card.Description>
               </Card.Content>
-              <Card.Content extra>
-                { element[4] ?
-                  <Button
-                    content="Sold"
-                    disabled
-                    fluid
-                  />:
-                  <Button
-                    content={`Buy for ${utils.toEtherWithPrecision(element[3],3)} ETH`}
-                    icon="add circle"
-                    loading={this.state.loading}
-                    onClick={event => this.onClick(event,element[3], element[5],index)}
-                    disabled={!this.props.provider.isEthersEnabledBrowser() || this.props.provider.accountIsLocked()}
-                    fluid
-                    positive
-                  />
-                }
-              </Card.Content>
+
+                {this.renderButton(element[4],element[6],element[3],element[5],index)}
+
             </Card>
     });
 
