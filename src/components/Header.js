@@ -26,8 +26,8 @@ class Header extends Component {
   }
 
   isOwner(){
-    console.log('currentAccount is ',this.props.currentAccount);
-    console.log('contractOwner is ', this.props.contractOwner)
+    // console.log('currentAccount is ',this.props.currentAccount);
+    // console.log('contractOwner is ', this.props.contractOwner)
     return this.props.currentAccount === this.props.contractOwner;
   }
 
