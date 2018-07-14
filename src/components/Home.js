@@ -9,7 +9,8 @@ import EventSystem from '../EventSystem';
 class Home extends Component{
   constructor(props){
     super(props);
-    console.log('is ether enabled ',props.provider.isEthersEnabledBrowser());
+    console.log('is ether enabled browser',props.provider.isEthersEnabledBrowser());
+    console.log('account is locked ',props.provider.accountIsLocked());
     this.state = {
       sales: [],
       loading:false,
@@ -79,7 +80,7 @@ class Home extends Component{
                     icon="add circle"
                     loading={this.state.loading}
                     onClick={event => this.onClick(event,element[3], element[5],index)}
-                    disabled={element[4] || !this.props.provider.isEthersEnabledBrowser()}
+                    disabled={!this.props.provider.isEthersEnabledBrowser() || this.props.provider.accountIsLocked()}
                     fluid
                     positive
                   />
