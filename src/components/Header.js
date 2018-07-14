@@ -42,7 +42,7 @@ class Header extends Component {
       <Menu style={{marginTop:'10px'}}>
           <Link to="/"><a className="item">SaleX</a></Link>
 
-        <Menu.Menu position="right">
+        <Menu.Menu position="left">
           { this.isOwner() ? (
 
             <Link to="/giveaway"><a className="item">Give away</a></Link>
@@ -52,11 +52,11 @@ class Header extends Component {
           ) : null}
 
           { !this.isOwner() && this.props.currentAccount ? (
-            (<Link to="/new"><a className="item">Add New</a></Link>)
+            (<Link to="/new"><a className="item">New Sale</a></Link>)
           ) : null}
 
           {this.props.currentAccount ? (
-            <a className="item">Account: {this.props.currentAccount} - Balance {utils.toEtherWithPrecision(this.state.balance,4)} ETH</a>
+            <a className="item">{this.isOwner()? 'Owner' : null} Account: {this.props.currentAccount} - Balance {utils.toEtherWithPrecision(this.state.balance,4)} ETH</a>
           ): (<a className="item">No Account</a>)}
 
         </Menu.Menu>
